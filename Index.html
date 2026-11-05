@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#0b1220">
+<title>PATRIC TRACKER AI — Prototype</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1220;--panel:#131f32;--line:#263750;--cyan:#42d9ff;--muted:#a8b7ca}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#101d32,#080d17);color:#f4f8ff;font-family:system-ui,-apple-system,Segoe UI,sans-serif;padding:20px}
+.wrap{max-width:520px;margin:auto}.top{display:flex;align-items:center;gap:12px;margin:8px 0 20px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#13bde8,#3457d5);display:grid;place-items:center;font-size:25px;box-shadow:0 8px 28px #13bde833}
+h1{font-size:20px;margin:0;letter-spacing:.5px}small,.muted{color:var(--muted)}.panel{background:#131f32;border:1px solid var(--line);border-radius:20px;padding:16px;margin:14px 0;box-shadow:0 12px 32px #0003}
+.screen{height:300px;position:relative;overflow:hidden;border-radius:15px;background:radial-gradient(ellipse at 50% 20%,#39506a,#17283c 55%,#0c1422);border:1px solid #40546e}
+.scene{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,#0a1420 56%),linear-gradient(115deg,transparent 35%,#6c8498 36%,#6c8498 37%,transparent 38%);opacity:.55}
+.ball{position:absolute;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff7b2,#ffb02e 35%,#d65b17 75%);box-shadow:0 5px 20px #ff9c2d77;left:20%;top:43%;transition:left .08s linear,top .08s linear}
+.boxtrack{position:absolute;width:66px;height:66px;border:2px solid var(--cyan);border-radius:8px;left:17%;top:39%;pointer-events:none;box-shadow:0 0 15px #42d9ff88;transition:left .08s linear,top .08s linear}
+.boxtrack:before{content:"CIBLE SUIVIE";position:absolute;left:-2px;top:-23px;font-size:10px;letter-spacing:.8px;color:#07131c;background:var(--cyan);padding:3px 6px;border-radius:4px;font-weight:800;white-space:nowrap}
+.tag{position:absolute;left:12px;top:12px;background:#07111dcc;border:1px solid #ffffff22;padding:6px 9px;border-radius:99px;font-size:11px;color:#bfefff}
+.hint{font-size:12px;color:#c1d0df;margin:10px 2px 0;line-height:1.45}
+.row{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:13px 15px;font-size:14px;font-weight:750;cursor:pointer;flex:1;min-width:125px}.primary{background:linear-gradient(135deg,#21c7ed,#4379ef);color:#04111c}.secondary{background:#24344b;color:#eaf4ff;border:1px solid #3a506d}.danger{background:#40232b;color:#ffdce2;border:1px solid #74404a}
+.status{display:flex;align-items:center;gap:9px;font-size:13px}.dot{width:9px;height:9px;border-radius:50%;background:#ffbf47}.dot.on{background:#42e39a;box-shadow:0 0 10px #42e39a}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.step{background:#0d1726;border:1px solid #263750;border-radius:12px;padding:10px 8px;text-align:center;font-size:11px;color:#c5d4e6}.step b{display:block;font-size:18px;margin-bottom:4px}
+.note{font-size:12px;line-height:1.5;color:#b6c5d8}.footer{text-align:center;color:#8192a8;font-size:11px;margin:20px 0 6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="logo">◎</div><div><h1>PATRIC TRACKER AI</h1><small>Prototype interactif · Version 0.1</small></div></div>
+  <div class="panel">
+    <div class="status"><span id="dot" class="dot"></span><strong id="status">Démonstration arrêtée</strong></div>
+    <p class="muted" style="font-size:13px;margin:8px 0 12px">Aperçu du principe de sélection et de suivi d'une cible.</p>
+    <div class="screen" id="screen">
+      <div class="scene"></div><div class="tag">VIDÉO DE DÉMONSTRATION</div>
+      <div class="ball" id="ball"></div><div class="boxtrack" id="track"></div>
+    </div>
+    <p class="hint">La balle orange représente l'objet choisi. Le cadre bleu illustre le suivi automatique simulé.</p>
+    <div class="row" style="margin-top:15px">
+      <button class="btn primary" id="start">▶ Démarrer la démo</button>
+      <button class="btn secondary" id="pause">Ⅱ Pause</button>
+      <button class="btn danger" id="stop">■ Arrêter</button>
+    </div>
+  </div>
+  <div class="panel">
+    <strong>Comment fonctionnera la vraie application ?</strong>
+    <div class="steps">
+      <div class="step"><b>①</b>Autoriser la capture d'écran</div>
+      <div class="step"><b>②</b>Toucher l'objet à suivre</div>
+      <div class="step"><b>③</b>L'IA suit sa position</div>
+    </div>
+  </div>
+  <div class="panel">
+    <strong>Important — ce prototype n'est pas encore le tracker réel</strong>
+    <p class="note">Cette page montre l'interface et simule le déplacement d'une cible. Elle ne capture pas les vidéos de YouTube, TikTok ou d'autres applications et ne contient pas encore de modèle de suivi IA. La prochaine étape sera de développer l'application Android native, avec les autorisations de capture et le suivi réel. Certaines applications protègent leur contenu et peuvent bloquer la capture.</p>
+  </div>
+  <div class="footer">PATRIC VISION · Projet expérimental</div>
+</div>
+<script>
+const ball=document.getElementById('ball'),track=document.getElementById('track');
+const statusEl=document.getElementById('status'),dot=document.getElementById('dot');
+let running=false,paused=false,t=0,raf=0;
+function frame(){
+ if(!running||paused)return;
+ t+=0.018;
+ const x=8+((Math.sin(t)+1)/2)*72;
+ const y=23+((Math.sin(t*1.37)+1)/2)*48;
+ ball.style.left=x+'%';ball.style.top=y+'%';
+ track.style.left='calc('+x+'% - 12px)';track.style.top='calc('+y+'% - 12px)';
+ raf=requestAnimationFrame(frame);
+}
+document.getElementById('start').onclick=()=>{running=true;paused=false;dot.classList.add('on');statusEl.textContent='Suivi simulé en cours';cancelAnimationFrame(raf);frame()};
+document.getElementById('pause').onclick=()=>{if(!running)return;paused=!paused;statusEl.textContent=paused?'Démonstration en pause':'Suivi simulé en cours';if(!paused)frame()};
+document.getElementById('stop').onclick=()=>{running=false;paused=false;cancelAnimationFrame(raf);dot.classList.remove('on');statusEl.textContent='Démonstration arrêtée';ball.style.left='20%';ball.style.top='43%';track.style.left='17%';track.style.top='39%'};
+document.getElementById('screen').addEventListener('click',e=>{if(running)return;const r=e.currentTarget.getBoundingClientRect();const x=((e.clientX-r.left)/r.width*100);const y=((e.clientY-r.top)/r.height*100);ball.style.left=x+'%';ball.style.top=y+'%';track.style.left='calc('+x+'% - 12px)';track.style.top='calc('+y+'% - 12px)'});
+</script>
+</body></html>
+<H1>PATRIC TRACKER AI</H2>
